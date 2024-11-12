@@ -19,7 +19,6 @@ export class ConnectionModule {
         inject: [ConfigService],
         useFactory: (configService: ConfigService<AppConfig, true>) => {
           const dbConfig = configService.get('database', { infer: true });
-
           return {
             type: 'postgres',
             host: dbConfig.host,

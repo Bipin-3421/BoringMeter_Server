@@ -1,12 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { MoviesModule } from './movies/movies.module';
 import { MoviesModule } from './modules/movies/movies.module';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './config/configuration';
+import { ConnectionModule } from './modules/connecion/connection.module';
 
 @Module({
-  imports: [MoviesModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    MoviesModule,
+    ConfigModule.forRoot({
+      load: [configuration],
+      isGlobal: true,
+    }),
+    ConnectionModule.forRoot(),
+  ],
 })
 export class AppModule {}
