@@ -1,8 +1,9 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { allEntities } from 'src/common/entities/index';
-import { AppConfig } from 'src/config/configuration';
+import { AllEntities } from 'common/entities/index';
+import { AppConfig } from 'config/configuration';
+
 import { TransactionalConnection } from './connection.service';
 
 let defaultTypeOrmModule: DynamicModule;
@@ -18,7 +19,11 @@ export class ConnectionModule {
         imports: [ConfigModule],
         inject: [ConfigService],
         useFactory: (configService: ConfigService<AppConfig, true>) => {
+          console.log('allentities', AllEntities);
+
           const dbConfig = configService.get('database', { infer: true });
+          console.log(dbConfig);
+
           return {
             type: 'postgres',
             host: dbConfig.host,
@@ -26,8 +31,9 @@ export class ConnectionModule {
             username: dbConfig.username,
             password: dbConfig.password,
             database: dbConfig.database,
-            entities: allEntities,
+            entities: AllEntities,
             synchronize: true,
+            logging: true,
           };
         },
       });

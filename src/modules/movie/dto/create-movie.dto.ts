@@ -6,16 +6,14 @@ export class CreateMovieDTO {
   @IsNotEmpty()
   title: string;
 
-  @ApiProperty({
-    description: 'image of the movies',
-    type: 'boolean',
-    format: 'binary',
-  })
-  @IsNotEmpty()
-  @IsString()
-  image: string;
-
   @IsNotEmpty()
   @IsString()
   description: string;
+
+  @ApiProperty({
+    description: 'image of the movie',
+    type: 'string',
+    format: 'binary',
+  })
+  image: Express.Multer.File;
 }

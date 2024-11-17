@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ENTITY_MANAGER_KEY } from 'src/common/constants';
-import { RequestContext } from 'src/common/request.context';
+import { ENTITY_MANAGER_KEY } from 'common/constants';
+import { RequestContext } from 'common/request.context';
 
 import {
   DataSource,

@@ -1,3 +1,5 @@
-import { Movies } from './movie.entity';
+import { Asset } from './asset.entity';
+import { Movie } from './movie.entity';
+import { User } from './user.entity';
 
-export const allEntities = [Movies];
+export const AllEntities = [Movie, Asset, User];

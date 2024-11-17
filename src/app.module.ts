@@ -1,12 +1,16 @@
 import { Module } from '@nestjs/common';
-import { MoviesModule } from './modules/movies/movies.module';
+import { MovieModule } from './modules/movie/movie.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { ConnectionModule } from './modules/connecion/connection.module';
+import { AssetModule } from './modules/asset/asset.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
-    MoviesModule,
+    MovieModule,
+    AssetModule,
+    UserModule,
     ConfigModule.forRoot({
       load: [configuration],
       isGlobal: true,
