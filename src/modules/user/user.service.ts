@@ -8,13 +8,12 @@ import { User } from 'common/entities/user.entity';
 export class UserService {
   constructor(private readonly connection: TransactionalConnection) {}
   async create(ctx: RequestContext, userDetails: CreateUserDTO) {
-    const userRepo = this.connection.getRepository(ctx, User);
-    console.log('User Entity:', userRepo); // Should log metadata details if correctly registered
+    const userRepo = this.connection.getRepository(User);
+    console.log('User Entity:', userRepo);
     const user = new User({
       name: userDetails.name,
       email: userDetails.email,
       phoneNumber: userDetails.phoneNumber,
-      role: userDetails.role,
     });
 
     return await userRepo.save(user);

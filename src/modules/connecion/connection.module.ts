@@ -1,7 +1,7 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AllEntities } from 'common/entities/index';
+import AllEntities from 'common/entities';
 import { AppConfig } from 'config/configuration';
 
 import { TransactionalConnection } from './connection.service';
@@ -18,11 +18,11 @@ export class ConnectionModule {
       defaultTypeOrmModule = TypeOrmModule.forRootAsync({
         imports: [ConfigModule],
         inject: [ConfigService],
-        useFactory: (configService: ConfigService<AppConfig, true>) => {
-          console.log('allentities', AllEntities);
 
+        useFactory: (configService: ConfigService<AppConfig, true>) => {
           const dbConfig = configService.get('database', { infer: true });
           console.log(dbConfig);
+          console.log(AllEntities);
 
           return {
             type: 'postgres',
@@ -33,7 +33,6 @@ export class ConnectionModule {
             database: dbConfig.database,
             entities: AllEntities,
             synchronize: true,
-            logging: true,
           };
         },
       });

@@ -8,6 +8,7 @@ import { Asset } from 'common/entities/asset.entity';
 import { UploadProvider } from './provider/uploadProvider.interface';
 import { LocalStorageProvider } from './provider/local.provider';
 import { AssetFor } from 'common/enum/asset.enum';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class AssetService {
@@ -33,7 +34,7 @@ export class AssetService {
     buffer: Buffer,
     assetFor: AssetFor,
   ): Promise<Asset> {
-    const assetRepo = this.connection.getRepository(ctx, Asset);
+    const assetRepo = this.connection.getRepository(Asset);
     const provider = this.getProvider();
 
     const uniqueFileName = `${assetFor.toString().toLowerCase()}_${Date.now()}`;

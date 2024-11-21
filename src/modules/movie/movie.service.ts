@@ -5,15 +5,17 @@ import { TransactionalConnection } from '../connecion/connection.service';
 import { Movie } from 'common/entities/movie.entity';
 import { AssetService } from '../asset/asset.service';
 import { AssetFor } from 'common/enum/asset.enum';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class MovieService {
   constructor(
     private readonly connection: TransactionalConnection,
+    private readonly dataSource: DataSource,
     private readonly assetService: AssetService,
   ) {}
   async create(ctx: RequestContext, body: CreateMovieDTO) {
-    const movieRepo = this.connection.getRepository(ctx, Movie);
+    const movieRepo = this.connection.getRepository(Movie);
 
     const asset = await this.assetService.upload(
       ctx,

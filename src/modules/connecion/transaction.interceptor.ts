@@ -1,11 +1,12 @@
 import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { catchError, concatMap, Observable } from 'rxjs';
 import { ENTITY_MANAGER_KEY } from 'common/constants';
+import { catchError, concatMap, Observable } from 'rxjs';
 import { DataSource } from 'typeorm';
 
 export class TransactionInterceptor implements NestInterceptor {
   constructor(@InjectDataSource() private dataSource: DataSource) {}
+
   async intercept(
     context: ExecutionContext,
     next: CallHandler<any>,
