@@ -1,6 +1,6 @@
 import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { ENTITY_MANAGER_KEY } from 'common/constants';
+import { ENTITY_MANAGER_KEY } from 'common/constant';
 import { catchError, concatMap, Observable } from 'rxjs';
 import { DataSource } from 'typeorm';
 

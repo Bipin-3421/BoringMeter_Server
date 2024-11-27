@@ -13,7 +13,6 @@ async function bootstrap() {
     .setTitle('BoringMeter')
     .setDescription('Api specification for BoringMeter backend')
     .setVersion('1.0')
-    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document, {

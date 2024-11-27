@@ -10,6 +10,11 @@ export interface AppConfig {
     database: string;
   };
 
+  user: {
+    email: string;
+    phoneNumber: string;
+  };
+
   assetProvider: {
     name: AssetProvider;
     local: {
@@ -28,6 +33,12 @@ export default () => {
       password: process.env.DATABASE_PASSWORD ?? '12345',
       database: process.env.DATABASE_NAME ?? 'boringmeter',
     },
+
+    user: {
+      email: process.env.SUPERADMINEMAIL ?? '',
+      phoneNumber: process.env.SUPERADMINUMBER ?? '',
+    },
+
     assetProvider: {
       name: (process.env.ASSET_PROVIDER ??
         AssetProvider.LOCAL) as AssetProvider,

@@ -15,6 +15,7 @@ export class AssetService {
   constructor(
     private readonly configService: ConfigService<AppConfig, true>,
     private readonly connection: TransactionalConnection,
+    private readonly dataSource: DataSource,
   ) {}
   getProvider(provider?: string): UploadProvider {
     const assetProvider =
@@ -40,8 +41,6 @@ export class AssetService {
     const uniqueFileName = `${assetFor.toString().toLowerCase()}_${Date.now()}`;
 
     const { identifier, url } = await provider.upload(buffer, uniqueFileName);
-    console.log(`identifier:${identifier}`);
-    console.log(`url:${url}`);
 
     const asset = new Asset({
       name: uniqueFileName,

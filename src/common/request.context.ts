@@ -1,6 +1,6 @@
 import { ExecutionContext } from '@nestjs/common';
 import { Request } from 'express';
-import { REQUEST_CONTEXT_KEY } from './constants';
+import { REQUEST_CONTEXT_KEY } from './constant';
 
 export class RequestContext {
   private readonly _request: Request;
@@ -13,20 +13,28 @@ export class RequestContext {
     return this._request;
   }
 
-  static empty() {
+  static empty(): RequestContext {
     return new RequestContext({ req: {} as Request });
   }
 
   static fromExecutionContext(context: ExecutionContext): RequestContext {
-    const req: Request = context.switchToHttp().getRequest();
+    try {
+      const req: Request = context.switchToHttp().getRequest();
 
-    if (req[REQUEST_CONTEXT_KEY]) {
-      return req[REQUEST_CONTEXT_KEY];
-    } else {
-      const newCtx = new RequestContext({ req });
-      (req as any)[REQUEST_CONTEXT_KEY] = newCtx;
+      // Ensure a context always exists
+      if (!req[REQUEST_CONTEXT_KEY]) {
+        const newCtx = new RequestContext({ req });
+        Object.defineProperty(req, REQUEST_CONTEXT_KEY, {
+          value: newCtx,
+          enumerable: false,
+          writable: false,
+        });
+      }
 
-      return newCtx;
+      return req[REQUEST_CONTEXT_KEY] || new RequestContext({ req });
+    } catch (error) {
+      console.error('Error creating RequestContext:', error);
+      return RequestContext.empty();
     }
   }
 }
