@@ -9,11 +9,8 @@ export class CreateUserDTO {
   email: string;
 
   @IsString()
-  phoneNumber: string;
+  password: string;
 
   @IsString()
-  address: string;
-
-  @IsEnum(Role)
-  role: Role;
+  phoneNumber: string;
 }

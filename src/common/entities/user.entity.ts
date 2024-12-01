@@ -1,6 +1,6 @@
 import { Column, DeepPartial, Entity } from 'typeorm';
 import { BaseEntity } from './base.entity';
-import { Role } from '../enum/role.enum';
+import { Role } from 'common/enum/role.enum';
 
 @Entity()
 export class User extends BaseEntity {
@@ -15,11 +15,11 @@ export class User extends BaseEntity {
   email: string;
 
   @Column({ type: String })
+  password: string;
+
+  @Column({ type: String })
   phoneNumber: string;
 
-  @Column({ type: String, nullable: true })
-  address: string;
-
-  @Column({ type: 'enum', enum: Role, enumName: 'Role' })
+  @Column({ type: 'enum', enumName: 'Role', enum: Role, default: Role.USER })
   role: Role;
 }

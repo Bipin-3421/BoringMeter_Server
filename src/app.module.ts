@@ -5,7 +5,6 @@ import { ConnectionModule } from 'modules/connecion/connection.module';
 import { UserModule } from 'modules/user/user.module';
 import { MovieModule } from 'modules/movie/movie.module';
 import { AssetModule } from 'modules/asset/asset.module';
-import { TestModule } from 'modules/test/test.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RequestContextInterceptor } from 'common/request-context.interceptor';
 
@@ -14,7 +13,6 @@ import { RequestContextInterceptor } from 'common/request-context.interceptor';
     UserModule,
     MovieModule,
     AssetModule,
-    TestModule,
     ConfigModule.forRoot({
       load: [configuration],
       isGlobal: true,

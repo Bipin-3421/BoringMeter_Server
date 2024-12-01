@@ -13,6 +13,7 @@ export interface AppConfig {
   user: {
     email: string;
     phoneNumber: string;
+    password: string;
   };
 
   assetProvider: {
@@ -36,7 +37,8 @@ export default () => {
 
     user: {
       email: process.env.SUPERADMINEMAIL ?? '',
-      phoneNumber: process.env.SUPERADMINUMBER ?? '',
+      phoneNumber: process.env.SUPERADMINPHONENUMBER ?? '',
+      password: process.env.SUPERADMINPASSWORD ?? '',
     },
 
     assetProvider: {
