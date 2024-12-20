@@ -1,6 +1,14 @@
-import { Entity, Column, DeepPartial, OneToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  DeepPartial,
+  OneToOne,
+  JoinColumn,
+  ManyToOne,
+} from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { Asset } from './asset.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class Movie extends BaseEntity {
@@ -20,4 +28,9 @@ export class Movie extends BaseEntity {
 
   @Column({ type: String })
   imageId: string;
+
+  @ManyToOne(() => User, (user) => user.movie)
+  user: User;
+  @JoinColumn({ name: 'userId' })
+  userId: string;
 }

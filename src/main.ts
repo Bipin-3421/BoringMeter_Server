@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { AppConfig } from './config/configuration';
 import { ConfigService } from '@nestjs/config';
+import * as cors from 'cors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +14,7 @@ async function bootstrap() {
     .setTitle('BoringMeter')
     .setDescription('Api specification for BoringMeter backend')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document, {
@@ -22,6 +24,12 @@ async function bootstrap() {
       tagsSorter: 'alpha',
     },
   });
+
+  app.use(
+    cors({
+      origin: '*',
+    }),
+  );
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 

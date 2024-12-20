@@ -22,6 +22,10 @@ export interface AppConfig {
       rootpath: string;
     };
   };
+
+  jwt: {
+    jwtSecret: string;
+  };
 }
 
 export default () => {
@@ -47,6 +51,10 @@ export default () => {
       local: {
         rootpath: process.env.ASSET_LOCAL_PROVIDER ?? 'uploads',
       },
+    },
+
+    jwt: {
+      jwtSecret: process.env.JWT_SECRET_KEY ?? '__change__me',
     },
   };
 

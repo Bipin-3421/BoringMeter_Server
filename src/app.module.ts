@@ -5,8 +5,9 @@ import { ConnectionModule } from 'modules/connecion/connection.module';
 import { UserModule } from 'modules/user/user.module';
 import { MovieModule } from 'modules/movie/movie.module';
 import { AssetModule } from 'modules/asset/asset.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { RequestContextInterceptor } from 'common/request-context.interceptor';
+import { AuthGuard } from 'guard/jwt.guard';
 
 @Module({
   imports: [
@@ -24,6 +25,10 @@ import { RequestContextInterceptor } from 'common/request-context.interceptor';
     {
       provide: APP_INTERCEPTOR,
       useClass: RequestContextInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
     },
   ],
 })
