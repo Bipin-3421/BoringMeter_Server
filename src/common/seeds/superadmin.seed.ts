@@ -3,6 +3,7 @@ import { User } from 'common/entities/user.entity';
 import { Role } from 'common/enum/role.enum';
 import { AppConfig } from 'config/configuration';
 import { TransactionalConnection } from 'modules/connecion/connection.service';
+import * as bcrypt from 'bcrypt';
 
 export const seedSuperAdmin = async (
   connection: TransactionalConnection,
@@ -11,6 +12,10 @@ export const seedSuperAdmin = async (
   const { email, phoneNumber, password } = configService.get('user', {
     infer: true,
   });
+
+  const salt = await bcrypt.genSalt();
+
+  const hashedPassword = await bcrypt.hash(password, salt);
 
   const userRepo = connection.getRepository(User);
 
@@ -24,7 +29,7 @@ export const seedSuperAdmin = async (
     const user = userRepo.create({
       name: 'Lee',
       email,
-      password,
+      password: hashedPassword,
       phoneNumber,
       role: Role.SUPERADMIN,
     });

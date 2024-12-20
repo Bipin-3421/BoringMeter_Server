@@ -23,7 +23,6 @@ export class AuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
-
     if (isPublic) {
       return true;
     }
@@ -33,12 +32,17 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
-    const payload = token
-      ? verifyToken<AuthPayload>(
-          token,
-          this.configService.get('jwt.jwtSecret', { infer: true }),
-        )
-      : null;
+    try {
+      const payload = token
+        ? verifyToken<AuthPayload>(
+            token,
+            this.configService.get('jwt.jwtSecret', { infer: true }),
+          )
+        : null;
+      request['user'] = payload;
+    } catch {
+      throw new UnauthorizedException();
+    }
 
     return true;
   }
