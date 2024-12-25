@@ -29,7 +29,7 @@ export class Movie extends BaseEntity {
   @Column({ type: String })
   imageId: string;
 
-  @ManyToOne(() => User, (user) => user.movie)
+  @ManyToOne(() => User, (user) => user.movie, { onDelete: 'CASCADE' })
   user: User;
   @JoinColumn({ name: 'userId' })
   userId: string;

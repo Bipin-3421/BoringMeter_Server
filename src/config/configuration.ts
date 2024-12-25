@@ -25,6 +25,7 @@ export interface AppConfig {
 
   jwt: {
     jwtSecret: string;
+    jwtTimeout: string;
   };
 }
 
@@ -55,6 +56,7 @@ export default () => {
 
     jwt: {
       jwtSecret: process.env.JWT_SECRET_KEY ?? '__change__me',
+      jwtTimeout: process.env.JWT_TIMEOUT ?? '15d',
     },
   };
 

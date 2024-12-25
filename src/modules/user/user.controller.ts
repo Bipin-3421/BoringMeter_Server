@@ -11,6 +11,7 @@ import { LoginUserDTO } from './dto/login-user.dto';
 @ApiTags('User')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
   @Post()
   @Public()
   async create(@Ctx() ctx: RequestContext, @Body() body: CreateUserDTO) {
@@ -24,9 +25,12 @@ export class UserController {
   @Post('login')
   @Public()
   async login(@Ctx() ctx: RequestContext, @Body() body: LoginUserDTO) {
-    const user = await this.userService.login(ctx, body);
+    const data = await this.userService.login(ctx, body);
+    if (!data?.user) {
+      throw new NotFoundException('User not found');
+    }
     return {
-      user,
+      accessToken: data.accessToken,
     };
   }
 }

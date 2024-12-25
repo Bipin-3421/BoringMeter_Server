@@ -1,7 +1,6 @@
 import {
   ConflictException,
   Injectable,
-  NotFoundException,
   OnApplicationBootstrap,
 } from '@nestjs/common';
 import { RequestContext } from 'common/request.context';
@@ -13,6 +12,8 @@ import { ConfigService } from '@nestjs/config';
 import { AppConfig } from 'config/configuration';
 import { LoginUserDTO } from './dto/login-user.dto';
 import * as bcrypt from 'bcrypt';
+import { signToken } from 'utils/jwt.utils';
+import { AuthPayload } from 'types/jwt';
 
 @Injectable()
 export class UserService implements OnApplicationBootstrap {
@@ -53,8 +54,21 @@ export class UserService implements OnApplicationBootstrap {
       if (!isMatch) {
         throw new ConflictException('Password not matched');
       }
-    }
+      const payload: AuthPayload = {
+        userId: user.id,
+        role: user.role,
+      };
 
-    return user;
+      const jwtSecret = this.configService.get('jwt.jwtSecret', {
+        infer: true,
+      });
+      const jwtTimeout = this.configService.get('jwt.jwtTimeout', {
+        infer: true,
+      });
+
+      const accessToken = signToken(payload, jwtSecret, jwtTimeout);
+
+      return { accessToken, user };
+    }
   }
 }

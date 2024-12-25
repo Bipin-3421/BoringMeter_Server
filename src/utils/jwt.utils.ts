@@ -7,7 +7,7 @@ export function signToken(
   timeout: string,
 ): string {
   const options: jwt.SignOptions = { expiresIn: timeout };
-  return jwt.sign(payload, secret, timeout);
+  return jwt.sign(payload, secret, options);
 }
 
 export function verifyToken<T>(token: string, secret: string): T | null {
