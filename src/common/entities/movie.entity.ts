@@ -5,10 +5,12 @@ import {
   OneToOne,
   JoinColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { Asset } from './asset.entity';
 import { User } from './user.entity';
+import { Wishlist } from './whishlist.entity';
 
 @Entity()
 export class Movie extends BaseEntity {
@@ -33,4 +35,7 @@ export class Movie extends BaseEntity {
   user: User;
   @JoinColumn({ name: 'userId' })
   userId: string;
+
+  @OneToMany(() => Movie, (movie) => movie.wishlist)
+  wishlist: Wishlist[];
 }

@@ -1,40 +1,43 @@
 import { ExecutionContext } from '@nestjs/common';
 import { Request } from 'express';
+import { AuthPayload } from 'types/jwt';
 import { REQUEST_CONTEXT_KEY } from './constant';
 
 export class RequestContext {
   private readonly _request: Request;
 
-  constructor(options: { req: Request }) {
+  private readonly _data: AuthPayload | undefined;
+
+  constructor(options: { req: Request; data: AuthPayload | undefined }) {
     this._request = options.req;
+    this._data = options.data;
   }
 
   get req(): Request {
     return this._request;
   }
 
-  static empty(): RequestContext {
-    return new RequestContext({ req: {} as Request });
+  get data(): AuthPayload | undefined {
+    return this._data;
   }
 
-  static fromExecutionContext(context: ExecutionContext): RequestContext {
-    try {
-      const req: Request = context.switchToHttp().getRequest();
+  static empty() {
+    return new RequestContext({ req: {} as Request, data: undefined });
+  }
 
-      // Ensure a context always exists
-      if (!req[REQUEST_CONTEXT_KEY]) {
-        const newCtx = new RequestContext({ req });
-        Object.defineProperty(req, REQUEST_CONTEXT_KEY, {
-          value: newCtx,
-          enumerable: false,
-          writable: false,
-        });
-      }
+  static fromExecutionContext(
+    context: ExecutionContext,
+    data?: AuthPayload,
+  ): RequestContext {
+    const req: Request = context.switchToHttp().getRequest();
 
-      return req[REQUEST_CONTEXT_KEY] || new RequestContext({ req });
-    } catch (error) {
-      console.error('Error creating RequestContext:', error);
-      return RequestContext.empty();
+    if (req[REQUEST_CONTEXT_KEY]) {
+      return req[REQUEST_CONTEXT_KEY];
+    } else {
+      const newCtx = new RequestContext({ req, data });
+      (req as any)[REQUEST_CONTEXT_KEY] = newCtx;
+
+      return newCtx;
     }
   }
 }

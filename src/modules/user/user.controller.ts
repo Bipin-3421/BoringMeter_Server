@@ -30,7 +30,9 @@ export class UserController {
       throw new NotFoundException('User not found');
     }
     return {
-      accessToken: data.accessToken,
+      data: {
+        accessToken: data.accessToken,
+      },
     };
   }
 }

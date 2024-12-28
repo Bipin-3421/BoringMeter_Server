@@ -10,6 +10,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get<ConfigService<AppConfig, true>>(ConfigService);
 
+  app.use(
+    cors({
+      origin: '*',
+    }),
+  );
+
   const config = new DocumentBuilder()
     .setTitle('BoringMeter')
     .setDescription('Api specification for BoringMeter backend')
@@ -24,12 +30,6 @@ async function bootstrap() {
       tagsSorter: 'alpha',
     },
   });
-
-  app.use(
-    cors({
-      origin: '*',
-    }),
-  );
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 

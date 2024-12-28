@@ -6,14 +6,15 @@ import { UserModule } from 'modules/user/user.module';
 import { MovieModule } from 'modules/movie/movie.module';
 import { AssetModule } from 'modules/asset/asset.module';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { RequestContextInterceptor } from 'common/request-context.interceptor';
 import { AuthGuard } from 'guard/jwt.guard';
+import { WishlistModule } from 'modules/wishlist/wishlist.module';
 
 @Module({
   imports: [
     UserModule,
     MovieModule,
     AssetModule,
+    WishlistModule,
     ConfigModule.forRoot({
       load: [configuration],
       isGlobal: true,
@@ -22,10 +23,6 @@ import { AuthGuard } from 'guard/jwt.guard';
     ConnectionModule.forRoot(),
   ],
   providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: RequestContextInterceptor,
-    },
     {
       provide: APP_GUARD,
       useClass: AuthGuard,

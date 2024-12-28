@@ -2,6 +2,7 @@ import { Column, DeepPartial, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { Role } from 'common/enum/role.enum';
 import { Movie } from './movie.entity';
+import { Wishlist } from './whishlist.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -26,4 +27,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Movie, (movie) => movie.user)
   movie: Movie[];
+
+  @OneToMany(() => Wishlist, (wishlist) => wishlist.user)
+  wishlist: Wishlist[];
 }

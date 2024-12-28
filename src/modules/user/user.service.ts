@@ -46,6 +46,7 @@ export class UserService implements OnApplicationBootstrap {
     const user = await userRepo.findOne({
       where: {
         email: userDetails.email,
+        phoneNumber: userDetails.phoneNumber,
       },
     });
 
