@@ -21,4 +21,20 @@ export class WishlistController {
       wishlist,
     };
   }
+
+  @Get()
+  @Public()
+  async getWishlist(@Ctx() ctx: RequestContext) {
+    const wishlist = await this.wishlistService.findMany(ctx);
+
+    return {
+      data: wishlist.map((wishlist) => {
+        return {
+          id: wishlist.id,
+          user: wishlist.user,
+          movie: wishlist.movie,
+        };
+      }),
+    };
+  }
 }
