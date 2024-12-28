@@ -21,9 +21,6 @@ export class ConnectionModule {
 
         useFactory: (configService: ConfigService<AppConfig, true>) => {
           const dbConfig = configService.get('database', { infer: true });
-          console.log(dbConfig);
-          console.log(AllEntities);
-
           return {
             type: 'postgres',
             host: dbConfig.host,

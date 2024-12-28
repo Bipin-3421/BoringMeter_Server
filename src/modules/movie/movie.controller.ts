@@ -12,13 +12,19 @@ import { RequestContext } from 'common/request.context';
 import { Ctx } from 'common/decorator/ctx.decorator';
 import { CreateMovieDTO } from './dto/create-movie.dto';
 import { FileUpload } from 'common/file-upload.interceptor';
+import { Require } from 'common/decorator/require.decorator';
+import { PermissionAction, PermissionResource } from 'types/permission';
 
-@Controller('movies')
+@Controller('movie')
 @ApiTags('Movie')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
   @Post()
+  @Require({
+    permission: PermissionResource.MOVIE,
+    action: PermissionAction.Edit,
+  })
   @UseInterceptors(FileUpload('image'))
   @ApiConsumes('multipart/form-data')
   async createMovie(

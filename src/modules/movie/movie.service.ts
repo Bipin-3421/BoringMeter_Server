@@ -11,11 +11,11 @@ import { DataSource } from 'typeorm';
 export class MovieService {
   constructor(
     private readonly connection: TransactionalConnection,
-    private readonly dataSource: DataSource,
     private readonly assetService: AssetService,
+    private readonly dataSource: DataSource,
   ) {}
   async create(ctx: RequestContext, body: CreateMovieDTO) {
-    const movieRepo = this.connection.getRepository(Movie);
+    const movieRepo = this.dataSource.getRepository(Movie);
 
     const asset = await this.assetService.upload(
       ctx,
@@ -29,8 +29,6 @@ export class MovieService {
       imageId: asset.id,
     });
 
-    await movieRepo.save(movie);
-
-    return movie;
+    return await movieRepo.save(movie);
   }
 }

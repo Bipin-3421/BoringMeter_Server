@@ -1,6 +1,16 @@
-import { Entity, Column, DeepPartial, OneToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  DeepPartial,
+  OneToOne,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { Asset } from './asset.entity';
+import { User } from './user.entity';
+import { Wishlist } from './whishlist.entity';
 
 @Entity()
 export class Movie extends BaseEntity {
@@ -20,4 +30,12 @@ export class Movie extends BaseEntity {
 
   @Column({ type: String })
   imageId: string;
+
+  @ManyToOne(() => User, (user) => user.movie, { onDelete: 'CASCADE' })
+  user: User;
+  @JoinColumn({ name: 'userId' })
+  userId: string;
+
+  @OneToMany(() => Movie, (movie) => movie.wishlist)
+  wishlist: Wishlist[];
 }

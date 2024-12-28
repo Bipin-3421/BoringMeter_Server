@@ -1,6 +1,8 @@
-import { Column, DeepPartial, Entity } from 'typeorm';
+import { Column, DeepPartial, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
-import { Role } from '../enum/role.enum';
+import { Role } from 'common/enum/role.enum';
+import { Movie } from './movie.entity';
+import { Wishlist } from './whishlist.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -15,8 +17,17 @@ export class User extends BaseEntity {
   email: string;
 
   @Column({ type: String })
+  password: string;
+
+  @Column({ type: String })
   phoneNumber: string;
 
-  @Column({ type: 'enum', enum: Role, enumName: 'Role', default: Role.USER })
+  @Column({ type: 'enum', enumName: 'Role', enum: Role, default: Role.USER })
   role: Role;
+
+  @OneToMany(() => Movie, (movie) => movie.user)
+  movie: Movie[];
+
+  @OneToMany(() => Wishlist, (wishlist) => wishlist.user)
+  wishlist: Wishlist[];
 }

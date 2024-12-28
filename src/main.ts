@@ -4,10 +4,17 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { AppConfig } from './config/configuration';
 import { ConfigService } from '@nestjs/config';
+import * as cors from 'cors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get<ConfigService<AppConfig, true>>(ConfigService);
+
+  app.use(
+    cors({
+      origin: '*',
+    }),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('BoringMeter')

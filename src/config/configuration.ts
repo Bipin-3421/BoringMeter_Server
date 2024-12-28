@@ -10,11 +10,22 @@ export interface AppConfig {
     database: string;
   };
 
+  user: {
+    email: string;
+    phoneNumber: string;
+    password: string;
+  };
+
   assetProvider: {
     name: AssetProvider;
     local: {
       rootpath: string;
     };
+  };
+
+  jwt: {
+    jwtSecret: string;
+    jwtTimeout: string;
   };
 }
 
@@ -28,12 +39,24 @@ export default () => {
       password: process.env.DATABASE_PASSWORD ?? '12345',
       database: process.env.DATABASE_NAME ?? 'boringmeter',
     },
+
+    user: {
+      email: process.env.SUPERADMINEMAIL ?? '',
+      phoneNumber: process.env.SUPERADMINPHONENUMBER ?? '',
+      password: process.env.SUPERADMINPASSWORD ?? '',
+    },
+
     assetProvider: {
       name: (process.env.ASSET_PROVIDER ??
         AssetProvider.LOCAL) as AssetProvider,
       local: {
         rootpath: process.env.ASSET_LOCAL_PROVIDER ?? 'uploads',
       },
+    },
+
+    jwt: {
+      jwtSecret: process.env.JWT_SECRET_KEY ?? '__change__me',
+      jwtTimeout: process.env.JWT_TIMEOUT ?? '15d',
     },
   };
 
