@@ -9,6 +9,7 @@ export enum PermissionResource {
   'ALL' = 'All',
   'MOVIE' = 'Movie',
   'USER' = 'User',
+  'WISHLIST' = 'Wishlist',
 }
 
 export enum PermissionAction {
@@ -38,6 +39,10 @@ export const RoleToPermissionArray: { [key in Role]: Permission[] } = {
     {
       resource: PermissionResource.MOVIE,
       action: [PermissionAction.VIEW],
+    },
+    {
+      resource: PermissionResource.WISHLIST,
+      action: [PermissionAction.Edit],
     },
   ],
 };

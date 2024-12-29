@@ -18,11 +18,14 @@ export class WishlistService {
     return await wishlistRepo.save(wishlist);
   }
 
-  async findMany(ctx: RequestContext): Promise<Wishlist[]> {
+  async findMany(ctx: RequestContext, userId: string): Promise<Wishlist[]> {
     const wishlistRepo = this.connection.getRepository(ctx, Wishlist);
 
     const findOptions = await wishlistRepo.find({
-      relations: { movie: true, user: true },
+      where: {
+        userId,
+      },
+      relations: { movie: { image: true } },
     });
 
     return findOptions;
