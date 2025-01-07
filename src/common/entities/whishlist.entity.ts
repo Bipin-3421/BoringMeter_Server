@@ -10,14 +10,16 @@ export class Wishlist extends BaseEntity {
   }
 
   @ManyToOne(() => User, (user) => user.wishlist)
-  user: User;
   @JoinColumn({ name: 'userId' })
+  user: User;
+
   @Column({ type: String })
   userId: string;
 
   @ManyToOne(() => Movie, (movie) => movie.wishlist)
-  movie: Movie;
   @JoinColumn({ name: 'movieId' })
+  movie: Movie;
+
   @Column({ type: String })
   movieId: string;
 }

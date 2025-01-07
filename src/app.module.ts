@@ -8,6 +8,8 @@ import { AssetModule } from 'modules/asset/asset.module';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthGuard } from 'guard/jwt.guard';
 import { WishlistModule } from 'modules/wishlist/wishlist.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -18,6 +20,10 @@ import { WishlistModule } from 'modules/wishlist/wishlist.module';
     ConfigModule.forRoot({
       load: [configuration],
       isGlobal: true,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
     }),
 
     ConnectionModule.forRoot(),

@@ -3,6 +3,7 @@ import { BaseEntity } from './base.entity';
 import { Role } from 'common/enum/role.enum';
 import { Movie } from './movie.entity';
 import { Wishlist } from './whishlist.entity';
+import { Review } from './review.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -30,4 +31,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Wishlist, (wishlist) => wishlist.user)
   wishlist: Wishlist[];
+
+  @OneToMany(() => Review, (review) => review.user)
+  review: Review[];
 }

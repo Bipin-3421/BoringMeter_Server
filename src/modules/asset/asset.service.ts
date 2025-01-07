@@ -35,7 +35,7 @@ export class AssetService {
     buffer: Buffer,
     assetFor: AssetFor,
   ): Promise<Asset> {
-    const assetRepo = this.connection.getRepository(Asset);
+    const assetRepo = this.connection.getRepository(ctx, Asset);
     const provider = this.getProvider();
 
     const uniqueFileName = `${assetFor.toString().toLowerCase()}_${Date.now()}`;
@@ -54,7 +54,7 @@ export class AssetService {
     // Save the simple asset instance
     try {
       await assetRepo.save(asset);
-      console.log('Simple asset saved:', asset);
+      // console.log('Simple asset saved:', asset);
     } catch (error) {
       console.error('Error during simple save:', error);
       throw error;

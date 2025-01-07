@@ -42,7 +42,11 @@ export const RoleToPermissionArray: { [key in Role]: Permission[] } = {
     },
     {
       resource: PermissionResource.WISHLIST,
-      action: [PermissionAction.Edit],
+      action: [PermissionAction.Edit, PermissionAction.VIEW],
+    },
+    {
+      resource: PermissionResource.USER,
+      action: [PermissionAction.VIEW],
     },
   ],
 };

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
 
 export class CreateMovieDTO {
   @IsString()
@@ -16,4 +17,18 @@ export class CreateMovieDTO {
     format: 'binary',
   })
   image: Express.Multer.File;
+}
+
+export class CreateReviewDTO {
+  @IsUUID()
+  movieId: string;
+
+  @IsUUID()
+  userId: string;
+
+  @IsNumber()
+  @Transform(({ value }) => {
+    return Number(value);
+  })
+  score: number;
 }

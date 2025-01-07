@@ -14,6 +14,10 @@ export class WishlistController {
   constructor(private readonly wishlistService: WishlistService) {}
 
   @Post()
+  @Require({
+    permission: PermissionResource.WISHLIST,
+    action: PermissionAction.Edit,
+  })
   async create(@Ctx() ctx: RequestContext, @Body() body: CreateWishlistDTO) {
     const wishlist = await this.wishlistService.create(ctx, body);
 
@@ -26,11 +30,13 @@ export class WishlistController {
   @Get()
   @Require({
     permission: PermissionResource.WISHLIST,
-    action: PermissionAction.Edit,
+    action: PermissionAction.VIEW,
   })
-  async getWishlist(@Ctx() ctx: RequestContext, @Req() req: RequestContext) {
-    const userId = req.data?.userId;
-    const wishlist = await this.wishlistService.findMany(ctx, userId as string);
+  async getWishlist(@Ctx() ctx: RequestContext) {
+    const userId = ctx.data?.userId;
+    console.log(userId);
+
+    const wishlist = await this.wishlistService.findMany(ctx, String(userId));
 
     return {
       data: wishlist.map((wishlist) => {
