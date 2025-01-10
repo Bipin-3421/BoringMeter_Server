@@ -6,10 +6,10 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
-import { IS_PUBLIC_KEY, REQUIRED_PERMISSION_KEY } from 'common/constant';
-import { RequirePermission } from 'common/decorator/require.decorator';
-import { RequestContext } from 'common/request.context';
-import { AppConfig } from 'config/configuration';
+import { IS_PUBLIC_KEY, REQUIRED_PERMISSION_KEY } from '@common/constant';
+import { RequirePermission } from '@common/decorator/require.decorator';
+import { RequestContext } from '@common/request.context';
+import { AppConfig } from '@config/configuration';
 import { Request } from 'express';
 import { AuthPayload } from 'types/jwt';
 import { PermissionResource, RoleToPermissionArray } from 'types/permission';

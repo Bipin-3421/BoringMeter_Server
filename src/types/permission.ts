@@ -3,7 +3,7 @@
 // Key: Each key in this object must match a value from the MemberRole enum.
 // Value: The value for each key must be an array of Permission objects.
 
-import { Role } from 'common/enum/role.enum';
+import { Role } from '@common/enum/role.enum';
 
 export enum PermissionResource {
   'ALL' = 'All',

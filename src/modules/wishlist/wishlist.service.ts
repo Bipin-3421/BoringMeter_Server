@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { RequestContext } from 'common/request.context';
+import { RequestContext } from '@common/request.context';
 import { CreateWishlistDTO } from './dto/create-wishlist.dto';
-import { TransactionalConnection } from 'modules/connecion/connection.service';
-import { Wishlist } from 'common/entities/whishlist.entity';
+import { TransactionalConnection } from '@modules/connecion/connection.service';
+import { Wishlist } from '@common/entities/whishlist.entity';
 
 @Injectable()
 export class WishlistService {

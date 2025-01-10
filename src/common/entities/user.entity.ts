@@ -1,6 +1,6 @@
 import { Column, DeepPartial, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
-import { Role } from 'common/enum/role.enum';
+import { Role } from '@common/enum/role.enum';
 import { Movie } from './movie.entity';
 import { Wishlist } from './whishlist.entity';
 import { Review } from './review.entity';

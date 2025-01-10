@@ -1,11 +1,10 @@
 import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { WishlistService } from './wishlist.service';
-import { Ctx } from 'common/decorator/ctx.decorator';
-import { RequestContext } from 'common/request.context';
+import { Ctx } from '@common/decorator/ctx.decorator';
+import { RequestContext } from '@common/request.context';
 import { CreateWishlistDTO } from './dto/create-wishlist.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { Public } from 'common/decorator/public.decorator';
-import { Require } from 'common/decorator/require.decorator';
+import { Require } from '@common/decorator/require.decorator';
 import { PermissionAction, PermissionResource } from 'types/permission';
 
 @Controller('wishlist')

@@ -2,11 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { RequestContext } from 'common/request.context';
 import { CreateMovieDTO, CreateReviewDTO } from './dto/create-movie.dto';
 import { TransactionalConnection } from '../connecion/connection.service';
-import { Movie } from 'common/entities/movie.entity';
+import { Movie } from '@common/entities/movie.entity';
 import { AssetService } from '../asset/asset.service';
-import { AssetFor } from 'common/enum/asset.enum';
-import { Review } from 'common/entities/review.entity';
-import { Role } from 'common/enum/role.enum';
+import { AssetFor } from '@common/enum/asset.enum';
+import { Review } from '@common/entities/review.entity';
 
 @Injectable()
 export class MovieService {

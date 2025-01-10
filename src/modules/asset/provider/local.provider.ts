@@ -1,10 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { UploadProvider } from './uploadProvider.interface';
 import { ConfigService } from '@nestjs/config';
-import { AppConfig } from 'config/configuration';
+import { AppConfig } from '@config/configuration';
 import * as path from 'path';
 import * as fs from 'fs';
-import { AssetProvider } from 'common/enum/provider.enum';
+import { AssetProvider } from '@common/enum/provider.enum';
 
 @Injectable()
 export class LocalStorageProvider implements UploadProvider {

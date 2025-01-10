@@ -1,13 +1,13 @@
 import { Controller, Post, Body, NotFoundException, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Ctx } from 'common/decorator/ctx.decorator';
-import { RequestContext } from 'common/request.context';
+import { Ctx } from '@common/decorator/ctx.decorator';
+import { RequestContext } from '@common/request.context';
 import { UserService } from './user.service';
 import { CreateUserDTO } from './dto/create-user.dto';
-import { Public } from 'common/decorator/public.decorator';
+import { Public } from '@common/decorator/public.decorator';
 import { LoginUserDTO } from './dto/login-user.dto';
 import { PermissionAction, PermissionResource } from 'types/permission';
-import { Require } from 'common/decorator/require.decorator';
+import { Require } from '@common/decorator/require.decorator';
 
 @Controller('user')
 @ApiTags('User')
