@@ -20,7 +20,14 @@ export class UserController {
     const user = await this.userService.create(ctx, body);
     return {
       message: 'User created sucessfully',
-      data: user,
+      data: {
+        id: user.id,
+        name: user.name,
+        createdAt: user.createdAt,
+        email: user.email,
+        password: user.password,
+        phoneNumber: user.phoneNumber,
+      },
     };
   }
 
@@ -37,7 +44,6 @@ export class UserController {
       },
     };
   }
-  async;
 
   @Get('active')
   @Require({
@@ -51,7 +57,13 @@ export class UserController {
       throw new NotFoundException('User not found');
     }
     return {
-      data: user,
+      data: {
+        id: user.id,
+        createdAt: user.createdAt,
+        email: user.email,
+        password: user.password,
+        phoneNumber: user.phoneNumber,
+      },
     };
   }
 }
