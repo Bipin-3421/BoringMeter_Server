@@ -1,4 +1,4 @@
-import { AssetProvider } from 'common/enum/provider.enum';
+import { AssetProvider } from '@common/enum/provider.enum';
 
 export interface AppConfig {
   port: number;

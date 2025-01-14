@@ -1,11 +1,13 @@
-import { Controller, Post, Body, NotFoundException } from '@nestjs/common';
+import { Controller, Post, Body, NotFoundException, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Ctx } from 'common/decorator/ctx.decorator';
-import { RequestContext } from 'common/request.context';
+import { Ctx } from '@common/decorator/ctx.decorator';
+import { RequestContext } from '@common/request.context';
 import { UserService } from './user.service';
 import { CreateUserDTO } from './dto/create-user.dto';
-import { Public } from 'common/decorator/public.decorator';
+import { Public } from '@common/decorator/public.decorator';
 import { LoginUserDTO } from './dto/login-user.dto';
+import { PermissionAction, PermissionResource } from 'types/permission';
+import { Require } from '@common/decorator/require.decorator';
 
 @Controller('user')
 @ApiTags('User')
@@ -18,7 +20,26 @@ export class UserController {
     const user = await this.userService.create(ctx, body);
     return {
       message: 'User created sucessfully',
-      data: user,
+      data: {
+        id: user.id,
+        name: user.name,
+        createdAt: user.createdAt,
+        email: user.email,
+        password: user.password,
+        phoneNumber: user.phoneNumber,
+      },
+    };
+  }
+
+  @Get()
+  @Require({
+    permission: PermissionResource.USER,
+    action: PermissionAction.VIEW,
+  })
+  async getUsers(@Ctx() ctx: RequestContext) {
+    const users = await this.userService.findMany(ctx);
+    return {
+      data: users,
     };
   }
 
@@ -32,6 +53,28 @@ export class UserController {
     return {
       data: {
         accessToken: data.accessToken,
+      },
+    };
+  }
+
+  @Get('active')
+  @Require({
+    permission: PermissionResource.USER,
+    action: PermissionAction.VIEW,
+  })
+  async activeUser(@Ctx() ctx: RequestContext) {
+    const userId = ctx.data?.userId;
+    const user = await this.userService.activeUser(ctx, String(userId));
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return {
+      data: {
+        id: user.id,
+        createdAt: user.createdAt,
+        email: user.email,
+        password: user.password,
+        phoneNumber: user.phoneNumber,
       },
     };
   }

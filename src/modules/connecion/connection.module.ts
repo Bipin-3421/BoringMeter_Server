@@ -1,8 +1,8 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import AllEntities from 'common/entities';
-import { AppConfig } from 'config/configuration';
+import AllEntities from '@common/entities';
+import { AppConfig } from '@config/configuration';
 
 import { TransactionalConnection } from './connection.service';
 

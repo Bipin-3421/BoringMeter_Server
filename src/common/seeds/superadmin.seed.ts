@@ -1,8 +1,8 @@
 import { ConfigService } from '@nestjs/config';
-import { User } from 'common/entities/user.entity';
-import { Role } from 'common/enum/role.enum';
-import { AppConfig } from 'config/configuration';
-import { TransactionalConnection } from 'modules/connecion/connection.service';
+import { User } from '@common/entities/user.entity';
+import { Role } from '@common/enum/role.enum';
+import { AppConfig } from '@config/configuration';
+import { TransactionalConnection } from '@modules/connecion/connection.service';
 import * as bcrypt from 'bcrypt';
 
 export const seedSuperAdmin = async (

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { RequestContext } from 'common/request.context';
+import { RequestContext } from '@common/request.context';
 import { CreateWishlistDTO } from './dto/create-wishlist.dto';
-import { TransactionalConnection } from 'modules/connecion/connection.service';
-import { Wishlist } from 'common/entities/whishlist.entity';
+import { TransactionalConnection } from '@modules/connecion/connection.service';
+import { Wishlist } from '@common/entities/whishlist.entity';
 
 @Injectable()
 export class WishlistService {
@@ -16,5 +16,18 @@ export class WishlistService {
     });
 
     return await wishlistRepo.save(wishlist);
+  }
+
+  async findMany(ctx: RequestContext, userId: string): Promise<Wishlist[]> {
+    const wishlistRepo = this.connection.getRepository(ctx, Wishlist);
+
+    const findOptions = await wishlistRepo.find({
+      where: {
+        userId,
+      },
+      relations: { movie: { image: true } },
+    });
+
+    return findOptions;
   }
 }

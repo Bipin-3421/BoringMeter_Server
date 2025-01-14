@@ -3,13 +3,13 @@ import {
   Injectable,
   OnApplicationBootstrap,
 } from '@nestjs/common';
-import { RequestContext } from 'common/request.context';
+import { RequestContext } from '@common/request.context';
 import { CreateUserDTO } from '../user/dto/create-user.dto';
 import { TransactionalConnection } from '../connecion/connection.service';
-import { User } from 'common/entities/user.entity';
-import { seedSuperAdmin } from 'common/seeds/superadmin.seed';
+import { User } from '@common/entities/user.entity';
+import { seedSuperAdmin } from '@common/seeds/superadmin.seed';
 import { ConfigService } from '@nestjs/config';
-import { AppConfig } from 'config/configuration';
+import { AppConfig } from '@config/configuration';
 import { LoginUserDTO } from './dto/login-user.dto';
 import * as bcrypt from 'bcrypt';
 import { signToken } from 'utils/jwt.utils';
@@ -71,5 +71,21 @@ export class UserService implements OnApplicationBootstrap {
 
       return { accessToken, user };
     }
+  }
+
+  async findMany(ctx: RequestContext) {
+    const userRepo = this.connection.getRepository(ctx, User);
+    const users = await userRepo.find();
+    return users;
+  }
+
+  async activeUser(ctx: RequestContext, userId: string) {
+    const userRepo = this.connection.getRepository(ctx, User);
+    const user = await userRepo.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    return user;
   }
 }

@@ -31,7 +31,13 @@ async function bootstrap() {
     },
   });
 
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: false, // Automatically remove properties not defined in DTOs
+      forbidNonWhitelisted: true, // Throw error if extra fields are provided
+      transform: true, // Automatically transform payloads to match DTOs
+    }),
+  );
 
   const port = configService.get('port', { infer: true });
 

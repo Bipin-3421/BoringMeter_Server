@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AppConfig } from 'config/configuration';
+import { AppConfig } from '@config/configuration';
 import { TransactionalConnection } from '../connecion/connection.service';
-import { AssetProvider } from 'common/enum/provider.enum';
-import { RequestContext } from 'common/request.context';
-import { Asset } from 'common/entities/asset.entity';
+import { AssetProvider } from '@common/enum/provider.enum';
+import { RequestContext } from '@common/request.context';
+import { Asset } from '@common/entities/asset.entity';
 import { UploadProvider } from './provider/uploadProvider.interface';
 import { LocalStorageProvider } from './provider/local.provider';
-import { AssetFor } from 'common/enum/asset.enum';
+import { AssetFor } from '@common/enum/asset.enum';
 import { DataSource } from 'typeorm';
 
 @Injectable()
@@ -35,7 +35,7 @@ export class AssetService {
     buffer: Buffer,
     assetFor: AssetFor,
   ): Promise<Asset> {
-    const assetRepo = this.connection.getRepository(Asset);
+    const assetRepo = this.connection.getRepository(ctx, Asset);
     const provider = this.getProvider();
 
     const uniqueFileName = `${assetFor.toString().toLowerCase()}_${Date.now()}`;
@@ -54,7 +54,7 @@ export class AssetService {
     // Save the simple asset instance
     try {
       await assetRepo.save(asset);
-      console.log('Simple asset saved:', asset);
+      // console.log('Simple asset saved:', asset);
     } catch (error) {
       console.error('Error during simple save:', error);
       throw error;
