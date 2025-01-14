@@ -73,6 +73,12 @@ export class UserService implements OnApplicationBootstrap {
     }
   }
 
+  async findMany(ctx: RequestContext) {
+    const userRepo = this.connection.getRepository(ctx, User);
+    const users = await userRepo.find();
+    return users;
+  }
+
   async activeUser(ctx: RequestContext, userId: string) {
     const userRepo = this.connection.getRepository(ctx, User);
     const user = await userRepo.findOne({

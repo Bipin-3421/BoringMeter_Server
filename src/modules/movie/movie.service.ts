@@ -27,6 +27,7 @@ export class MovieService {
       title: body.title,
       description: body.description,
       imageId: asset.id,
+      metaScore: body.metaScore,
       userId,
     });
 

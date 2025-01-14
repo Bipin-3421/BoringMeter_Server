@@ -31,6 +31,18 @@ export class UserController {
     };
   }
 
+  @Get()
+  @Require({
+    permission: PermissionResource.USER,
+    action: PermissionAction.VIEW,
+  })
+  async getUsers(@Ctx() ctx: RequestContext) {
+    const users = await this.userService.findMany(ctx);
+    return {
+      data: users,
+    };
+  }
+
   @Post('login')
   @Public()
   async login(@Ctx() ctx: RequestContext, @Body() body: LoginUserDTO) {

@@ -4,10 +4,8 @@ import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
 
 export class CreateMovieDTO {
   @IsString()
-  @IsNotEmpty()
   title: string;
 
-  @IsNotEmpty()
   @IsString()
   description: string;
 
@@ -17,6 +15,12 @@ export class CreateMovieDTO {
     format: 'binary',
   })
   image: Express.Multer.File;
+
+  @IsNumber()
+  @Transform(({ value }) => {
+    return Number(value);
+  })
+  metaScore: number;
 }
 
 export class CreateReviewDTO {

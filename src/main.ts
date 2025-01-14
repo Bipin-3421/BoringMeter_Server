@@ -33,7 +33,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Automatically remove properties not defined in DTOs
+      whitelist: false, // Automatically remove properties not defined in DTOs
       forbidNonWhitelisted: true, // Throw error if extra fields are provided
       transform: true, // Automatically transform payloads to match DTOs
     }),
