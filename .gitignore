@@ -2,8 +2,8 @@
 /dist
 /node_modules
 /build
-info.txt
-uploads
+/uploads
+/info.txt
 
 # Logs
 logs
