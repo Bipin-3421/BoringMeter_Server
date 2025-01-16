@@ -5,6 +5,8 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { AppConfig } from './config/configuration';
 import { ConfigService } from '@nestjs/config';
 import * as cors from 'cors';
+import * as express from 'express';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

@@ -6,6 +6,8 @@ import {
   UploadedFile,
   NotAcceptableException,
   Get,
+  Delete,
+  Query,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
@@ -15,6 +17,7 @@ import { CreateMovieDTO, CreateReviewDTO } from './dto/create-movie.dto';
 import { FileUpload } from '@common/file-upload.interceptor';
 import { Require } from '@common/decorator/require.decorator';
 import { PermissionAction, PermissionResource } from 'types/permission';
+import { MovieParamDTO } from './dto/param.dto';
 
 @Controller('movie')
 @ApiTags('Movie')
@@ -40,6 +43,8 @@ export class MovieController {
     body.image = file;
     const userId = String(ctx.data?.userId);
 
+    console.log(userId);
+
     const data = await this.movieService.create(ctx, body, userId);
 
     return {
@@ -62,27 +67,56 @@ export class MovieController {
           id: movie.id,
           title: movie.title,
           image: movie.image,
-          desciption: movie.description,
+          description: movie.description,
           metaScore: movie.metaScore,
           userScore: movie.userScore,
           user: movie.user,
         };
       }),
     };
+    ``;
   }
 
-  @Post('review')
+  // @Post('review')
+  // @Require({
+  //   permission: PermissionResource.MOVIE,
+  //   action: PermissionAction.Edit,
+  // })
+  // async createReview(
+  //   @Ctx() ctx: RequestContext,
+  //   @Body() body: CreateReviewDTO,
+  // ) {
+  //   const review = await this.movieService.addReview(ctx, body);
+  //   return {
+  //     data: review,
+  //   };
+  // }
+
+  // @Post('review')
+  // @Require({
+  //   permission: PermissionResource.MOVIE,
+  //   action: PermissionAction.Edit,
+  // })
+  // async createReview(
+  //   @Ctx() ctx: RequestContext,
+  //   @Body() body: CreateReviewDTO,
+  // ) {
+  //   const review = await this.movieService.addReview(ctx, body);
+  //   return {
+  //     data: review,
+  //   };
+  // }
+
+  @Delete(':movieId')
   @Require({
     permission: PermissionResource.MOVIE,
     action: PermissionAction.Edit,
   })
-  async createReview(
-    @Ctx() ctx: RequestContext,
-    @Body() body: CreateReviewDTO,
-  ) {
-    const review = await this.movieService.addReview(ctx, body);
+  async deleteMovie(@Ctx() ctx: RequestContext, @Query() param: MovieParamDTO) {
+    const movie = await this.movieService.delete(ctx, param.movieId);
+
     return {
-      data: review,
+      message: 'Movie deleted successfully',
     };
   }
 }

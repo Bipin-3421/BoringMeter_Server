@@ -9,14 +9,19 @@ export class Wishlist extends BaseEntity {
     super(input);
   }
 
-  @ManyToOne(() => User, (user) => user.wishlist)
+  @ManyToOne(() => User, (user) => user.wishlist, {
+    onDelete: 'CASCADE',
+    nullable: true,
+  })
   @JoinColumn({ name: 'userId' })
   user: User;
 
   @Column({ type: String })
   userId: string;
 
-  @ManyToOne(() => Movie, (movie) => movie.wishlist)
+  @ManyToOne(() => Movie, (movie) => movie.wishlist, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'movieId' })
   movie: Movie;
 

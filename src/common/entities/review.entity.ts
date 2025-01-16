@@ -12,13 +12,6 @@ export class Review extends BaseEntity {
   @Column({ type: 'float', default: 0 })
   score: number;
 
-  @ManyToOne(() => Movie, (movie) => movie.review)
-  @JoinColumn({ name: 'movieId' })
-  movie: Movie;
-
-  @Column({ type: String })
-  movieId: string;
-
   @ManyToOne(() => User, (user) => user.review)
   @JoinColumn({ name: 'userId' })
   user: User;

@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  NotFoundException,
   OnApplicationBootstrap,
 } from '@nestjs/common';
 import { RequestContext } from '@common/request.context';
@@ -87,5 +88,21 @@ export class UserService implements OnApplicationBootstrap {
       },
     });
     return user;
+  }
+
+  async delete(ctx: RequestContext, userId: string) {
+    const userRepo = this.connection.getRepository(ctx, User);
+
+    const user = await userRepo.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return await userRepo.remove(user);
   }
 }
