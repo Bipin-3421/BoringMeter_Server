@@ -5,7 +5,6 @@ import { TransactionalConnection } from '../connecion/connection.service';
 import { Movie } from '@common/entities/movie.entity';
 import { AssetService } from '../asset/asset.service';
 import { AssetFor } from '@common/enum/asset.enum';
-import { Review } from '@common/entities/review.entity';
 
 @Injectable()
 export class MovieService {
@@ -22,6 +21,10 @@ export class MovieService {
       body.image.buffer,
       AssetFor.MOVIE,
     );
+
+    if (!asset || !asset.id) {
+      throw new Error('Failed to create asset');
+    }
 
     const movie = new Movie({
       title: body.title,
@@ -42,36 +45,50 @@ export class MovieService {
     return movies;
   }
 
-  async addReview(ctx: RequestContext, details: CreateReviewDTO) {
-    const reviewRepo = this.connection.getRepository(ctx, Review);
+  // async addReview(ctx: RequestContext, details: CreateReviewDTO) {
+  //   const reviewRepo = this.connection.getRepository(ctx, Review);
+  //   const movieRepo = this.connection.getRepository(ctx, Movie);
+
+  //   const review = new Review({
+  //     movieId: details.movieId,
+  //     userId: details.userId,
+  //     score: details.score,
+  //   });
+
+  //   await reviewRepo.save(review);
+
+  //   // Recalculate the user score average
+  //   const movie = await movieRepo.findOne({
+  //     where: { id: details.movieId },
+  //     relations: { review: true },
+  //   });
+
+  //   if (!movie) {
+  //     throw new NotFoundException('Movie not found');
+  //   }
+
+  //   const userScores = movie.review.map((r) => r.score);
+
+  //   movie.userScore = userScores.length
+  //     ? userScores.reduce((a, b) => a + b, 0) / userScores.length
+  //     : 0;
+
+  //   return await movieRepo.save(movie);
+  // }
+
+  async delete(ctx: RequestContext, movieId: string) {
     const movieRepo = this.connection.getRepository(ctx, Movie);
 
-    const review = new Review({
-      movieId: details.movieId,
-      userId: details.userId,
-      score: details.score,
-    });
-
-    await reviewRepo.save(review);
-
-    // Recalculate the user score average
     const movie = await movieRepo.findOne({
-      where: { id: details.movieId },
-      relations: { review: true },
+      where: {
+        id: movieId,
+      },
     });
-
-    console.log(movie);
 
     if (!movie) {
       throw new NotFoundException('Movie not found');
     }
 
-    const userScores = movie.review.map((r) => r.score);
-
-    movie.userScore = userScores.length
-      ? userScores.reduce((a, b) => a + b, 0) / userScores.length
-      : 0;
-
-    return await movieRepo.save(movie);
+    return await movieRepo.remove(movie);
   }
 }

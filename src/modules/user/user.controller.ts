@@ -1,4 +1,12 @@
-import { Controller, Post, Body, NotFoundException, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  NotFoundException,
+  Get,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Ctx } from '@common/decorator/ctx.decorator';
 import { RequestContext } from '@common/request.context';
@@ -8,6 +16,7 @@ import { Public } from '@common/decorator/public.decorator';
 import { LoginUserDTO } from './dto/login-user.dto';
 import { PermissionAction, PermissionResource } from 'types/permission';
 import { Require } from '@common/decorator/require.decorator';
+import { UserParamDTO } from './dto/param.dto';
 
 @Controller('user')
 @ApiTags('User')
@@ -76,6 +85,19 @@ export class UserController {
         password: user.password,
         phoneNumber: user.phoneNumber,
       },
+    };
+  }
+
+  @Delete(':userId')
+  @Require({
+    permission: PermissionResource.MOVIE,
+    action: PermissionAction.Edit,
+  })
+  async deleteUser(@Ctx() ctx: RequestContext, @Query() param: UserParamDTO) {
+    const user = await this.userService.delete(ctx, param.userId);
+
+    return {
+      message: 'User deleted successfully',
     };
   }
 }
